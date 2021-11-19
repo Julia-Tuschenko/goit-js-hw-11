@@ -1,28 +1,40 @@
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import {fetchUrl} from './fetch';
+import NewsApiService from '../js/news-service.js';
+import photoCards from '../templates/gallery_cards.hbs';
+// console.log(photoCards);
 
 
 const refs = {
     form: document.querySelector("#search-form"),
-    input: document.querySelector("#search-form  input"),
+    gallery: document.querySelector('.gallery'),
+    loadMoreBtn: document.querySelector('.load-more'),
 };
 
-// refs.form.addEventListener('submit', onFornSubmit);
-refs.input.addEventListener('input', onInput);
+// let searchQuery = '';
+
+const newsApiService = new NewsApiService();
+
+refs.form.addEventListener('submit', onFornSubmit);
+refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 
-// function onFornSubmit(){
-
-// }
-
-
-function onInput(evt){
-    const message = evt.currentTarget.value;
-    console.log(message);
-    fetchUrl(message);
+function onFornSubmit(inquiry){
+    inquiry.preventDefault();
+    newsApiService.query = inquiry.currentTarget.elements.searchQuery.value;
+    newsApiService.fetchUrl();
 }
-// 
+
+function onLoadMore (){
+    newsApiService.fetchUrl();
+}
+
+// function onInput(evt){
+//     const message = evt.currentTarget.value;
+//     console.log(message);
+//     fetchUrl(message);
+// }
+// // 
 
 
 

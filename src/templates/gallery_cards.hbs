@@ -1,0 +1,27 @@
+{{#each this}}
+<div class="photo-card">
+  <img src="{{webformatURL}}" alt="{{tags}}" loading="lazy" />
+  <div class="info">
+    <p class="info-item">
+      <b>Likes:<span class="info-description">{{likes}}</span></b>
+    </p>
+    <p class="info-item">
+      <b>Views:<span class="info-description">{{views}}</span></b>
+    </p>
+    <p class="info-item">
+      <b>Comments:<span class="info-description">{{comments}}</span></b>
+    </p>
+    <p class="info-item">
+      <b>Downloads:<span class="info-description">{{downloads}}</span></b>
+    </p>
+  </div>
+</div>
+{{/each}}
+
+{{!-- webformatURL - ссылка на маленькое изображение для списка карточек.
+largeImageURL - ссылка на большое изображение.
+tags - строка с описанием изображения. Подойдет для атрибута alt.
+likes - количество лайков.
+views - количество просмотров.
+comments - количество комментариев.
+downloads - количество загрузок. --}}
