@@ -21,13 +21,33 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 function onFornSubmit(inquiry){
     inquiry.preventDefault();
-    newsApiService.query = inquiry.currentTarget.elements.searchQuery.value;
-    newsApiService.fetchUrl();
+
+    newsApiService.query = inquiry.currentTarget.elements.searchQuery.value;  
+    newsApiService.resetPage();
+    newsApiService.fetchUrl().then(hids => {
+        clearHitsCards();
+        appendHitsMarckup(hids);
+    });
 }
 
 function onLoadMore (){
-    newsApiService.fetchUrl();
+    newsApiService.fetchUrl().then(appendHitsMarckup);
 }
+
+function appendHitsMarckup(hits){
+    refs.gallery.insertAdjacentHTML('beforeend', photoCards(hits));
+}
+
+function clearHitsCards(){
+    refs.gallery.innerHTML = '';
+}
+
+
+
+
+
+
+
 
 // function onInput(evt){
 //     const message = evt.currentTarget.value;
