@@ -4,21 +4,26 @@ import NewsApiService from '../js/news-service.js';
 import photoCards from '../templates/gallery_cards.hbs';
 import  SimpleLightbox  from  'simplelightbox' ;
 import 'simplelightbox/dist/simple-lightbox.min.css' ;
+import LoadMoreBtn from './load-more-btn.js';
 // console.log(photoCards);
 
 
 const refs = {
     form: document.querySelector("#search-form"),
     gallery: document.querySelector('.gallery'),
-    loadMoreBtn: document.querySelector('.load-more'),
     input: document.querySelector('.search-input'),
 };
+
+const loadMoreBtn = new LoadMoreBtn({
+    selector: '[data-action="load-more"]',
+    hidden: true,
+});
 
 
 const newsApiService = new NewsApiService();
 
 refs.form.addEventListener('submit', onFornSubmit);
-refs.loadMoreBtn.addEventListener('click', onLoadMore);
+loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 
 function onFornSubmit(inquiry){
@@ -26,22 +31,18 @@ function onFornSubmit(inquiry){
 
     newsApiService.query = inquiry.currentTarget.elements.searchQuery.value; 
 
+    loadMoreBtn.show();
     newsApiService.resetPage();
-    newsApiService.fetchUrl().then(hids => {
         clearHitsCards();
-        appendHitsMarckup(hids);
-        // fetchPictures(hids);
-        refs.loadMoreBtn.classList.remove('is-hidden');
-    //     Notify.info(`Hooray! We found ${hids.totalHits} images.`);
-    //     refs.loadMoreBtn.classList.remove('is-hidden');
-    })
-    // .catch(() =>
-    //   Notify.failure('Sorry, there are no images matching your search query. Please try again.'),
-    // );
+        onLoadMore();
 }
 
 function onLoadMore (){
-    newsApiService.fetchUrl().then(appendHitsMarckup);
+    loadMoreBtn.disable();
+    newsApiService.fetchUrl().then(hids => {
+        appendHitsMarckup(hids);
+        loadMoreBtn.enable();
+    });
 }
 
 function appendHitsMarckup(hits){
@@ -49,12 +50,10 @@ function appendHitsMarckup(hits){
         Notify.failure('Sorry, there are no images matching your search query. Please try again.');}
     else {
     refs.gallery.insertAdjacentHTML('beforeend', photoCards(hits));
-    }
-    refs.loadMoreBtn.classList.add('is-hidden');
+    };
 }
 
 function clearHitsCards(){
-    // refs.loadMoreBtn.classList.remove('is-hidden');
     refs.gallery.innerHTML = '';
 }
 
