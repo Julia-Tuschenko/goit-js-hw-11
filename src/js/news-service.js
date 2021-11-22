@@ -14,7 +14,13 @@ export default class NewsApiService {
     // console.log('До', this);
     return fetch(`${BASE_URL}${KEY}&q=${this.searchQuery}&image_type=photo&
     orientation=horizontal&safesearch=true&per_page=${this.totalHits}&page=${this.page}`)
-      .then(res => res.json())
+      .then(response => {
+        if (!response.ok) {
+            Notify.failure(`"Oops, there is no value with that name"`);
+            throw new Error(response.status);
+          }
+          return response.json();
+        })
       .then(articles => {
           // console.log(data);
           this.incrementPage();
