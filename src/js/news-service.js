@@ -15,11 +15,10 @@ export default class NewsApiService {
     return fetch(`${BASE_URL}${KEY}&q=${this.searchQuery}&image_type=photo&
     orientation=horizontal&safesearch=true&per_page=${this.totalHits}&page=${this.page}`)
       .then(res => res.json())
-      .then(data => {
-          console.log(data);
+      .then(articles => {
+          // console.log(data);
           this.incrementPage();
-          // console.log('После', this);
-          return data.hits;
+          return articles.hits;          
         });
   }
 
@@ -39,11 +38,11 @@ export default class NewsApiService {
     this.searchQuery = newQuery;
   }
 
-  emplyArray(){
-    if(this.totalHits === 0){
-        Notify.info(`Sorry, there are no images matching your search query. Please try again.`);
-    }
-  }
+  // emplyArray(){
+  //   if(this.totalHits === 0){
+  //       Notify.info(`Sorry, there are no images matching your search query. Please try again.`);
+  //   }
+  // }
     
 }
 

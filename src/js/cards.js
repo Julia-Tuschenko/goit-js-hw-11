@@ -22,12 +22,19 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 function onFornSubmit(inquiry){
     inquiry.preventDefault();
 
-    newsApiService.query = inquiry.currentTarget.elements.searchQuery.value;  
+    newsApiService.query = inquiry.currentTarget.elements.searchQuery.value; 
+
     newsApiService.resetPage();
     newsApiService.fetchUrl().then(hids => {
         clearHitsCards();
         appendHitsMarckup(hids);
-    });
+        refs.loadMoreBtn.classList.remove('is-hidden');
+    //     Notify.info(`Hooray! We found ${hids.totalHits} images.`);
+    //     refs.loadMoreBtn.classList.remove('is-hidden');
+    })
+    // .catch(() =>
+    //   Notify.failure('Sorry, there are no images matching your search query. Please try again.'),
+    // );
 }
 
 function onLoadMore (){
@@ -35,12 +42,23 @@ function onLoadMore (){
 }
 
 function appendHitsMarckup(hits){
+    if (hits.length === 0) {
+        Notify.failure('Sorry, there are no images matching your search query. Please try again.');}
+    // else if (hits.value === ''){
+    //     Notify.failure('Please enter a value to search.')
+    // } 
+    else {
     refs.gallery.insertAdjacentHTML('beforeend', photoCards(hits));
+    }
 }
 
 function clearHitsCards(){
     refs.gallery.innerHTML = '';
 }
+
+// function loadMore (value){
+      
+// }
 
 
 
