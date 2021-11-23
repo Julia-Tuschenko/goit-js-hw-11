@@ -35,14 +35,16 @@ function onFornSubmit(inquiry){
     newsApiService.resetPage();
         clearHitsCards();   
         onLoadMore();
+        loadMoreBtn.enable();
 }
 
 function onLoadMore (){
     loadMoreBtn.disable();
     newsApiService.fetchUrl().then(hids => {
         appendHitsMarckup(hids);
-        loadMoreBtn.enable();
+    loadMoreBtn.enable();
     });
+    
 }
 
 function appendHitsMarckup(hits){
