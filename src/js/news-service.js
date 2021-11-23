@@ -7,24 +7,23 @@ export default class NewsApiService {
   constryctor(){
     this.searchQuery = '';
     this.page = 1;
-    this.per_page = 40;
-    this.totalHits = '';
+    this.totalHits = 40;
   }
 
   fetchUrl (){
     // console.log('До', this);
     return fetch(`${BASE_URL}${KEY}&q=${this.searchQuery}&image_type=photo&
-    orientation=horizontal&safesearch=true&per_page=${this.per_page}&page=${this.page}`)
+    orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`)
       .then(response => {
         if (!response.ok) {
             Notify.failure(`"Oops, there is no value with that name"`);
             throw new Error(response.status);
-          }
+          }        
           return response.json();
         })
       .then(articles => {
           // console.log(data);
-          this.incrementPage();
+          this.incrementPage();          
           return articles.hits;          
         });
   }
@@ -43,14 +42,8 @@ export default class NewsApiService {
 
   set query (newQuery){
     this.searchQuery = newQuery;
-  }
+  }    
 
-  // emplyArray(){
-  //   if(this.totalHits === 0){
-  //       Notify.info(`Sorry, there are no images matching your search query. Please try again.`);
-  //   }
-  // }
-    
 }
 
 
