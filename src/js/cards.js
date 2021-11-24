@@ -22,6 +22,8 @@ const loadMoreBtn = new LoadMoreBtn({
 
 const newsApiService = new NewsApiService();
 
+
+
 refs.form.addEventListener('submit', onFornSubmit);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
@@ -55,6 +57,8 @@ function appendHitsMarckup(hits){
         refs.gallery.insertAdjacentHTML('beforeend', photoCards(hits));
         const lightbox = new SimpleLightbox('.gallery a', { captionsData : "alt", captionDelay : 250, navText : ['←','→']});
         lightbox.on("show.simplelightbox");}
+        scroll();
+          
     if(hits.length !== 0) {
         Notify.success(`Hooray! We found ${hits.length} images.`);
         loadMoreBtn.show();
@@ -69,6 +73,15 @@ function appendHitsMarckup(hits){
 function clearHitsCards(){
     refs.gallery.innerHTML = '';
 }
+
+function scroll() {
+    const { height: cardHeight } = refs.gallery.firstElementChild.getBoundingClientRect();
+  
+    window.scrollBy({
+      top: cardHeight * 10,
+      behavior: 'smooth',
+    });
+  }
 
 // function message(hits){
 //     if (hits.length !== 0) {
